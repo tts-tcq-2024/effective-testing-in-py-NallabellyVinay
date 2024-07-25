@@ -20,6 +20,7 @@ def alert_in_celcius(farenheit):
 # Test cases
 alert_in_celcius(400.5)  # This should simulate a failure (as it's above 100°C)
 alert_in_celcius(303.6)  # This should simulate a failure (as it's above 100°C)
+alert_in_celcius(100)
 
 # Check the failure count
 print(f'{alert_failure_count} alerts failed.')
