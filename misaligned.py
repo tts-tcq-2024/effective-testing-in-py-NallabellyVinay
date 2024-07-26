@@ -1,4 +1,3 @@
-
 def print_color_map():
     major_colors = ["White", "Red", "Black", "Yellow", "Violet"]
     minor_colors = ["Blue", "Orange", "Green", "Brown", "Slate"]
@@ -10,4 +9,6 @@ def print_color_map():
 
 result = print_color_map()
 assert(result == 25)
+assert(result == 0)
+assert(result ==24)
 print("All is well (maybe!)\n")
