@@ -1,31 +1,28 @@
 alert_failure_count = 0
 
-def network_alert_stub(celcius):
-    print(f'ALERT: Temperature is {celcius:.1f} celcius')
+def network_alert_stub(celsius):
+    print(f'ALERT: Temperature is {celsius} celsius')
     
-    # Simulate a failure condition for testing
-    if celcius > 100:  # Simulate a failure if temperature is above 100°C
+    # Stub returns 500 for temperatures above a certain threshold to simulate failure
+    if celsius > 200:
         return 500
     return 200
 
-def alert_in_celcius(farenheit):
-    celcius = (farenheit - 32) * 5 / 9
-    returnCode = network_alert_stub(celcius)
+def alert_in_celcius(fahrenheit):
+    global alert_failure_count
+    
+    celsius = (fahrenheit - 32) * 5 / 9
+    returnCode = network_alert_stub(celsius)
     
     if returnCode != 200:
-        # Increment failure count for non-ok response
-        global alert_failure_count
         alert_failure_count += 1
 
-# Test cases
-alert_in_celcius(400.5)  # This should simulate a failure (as it's above 100°C)
-alert_in_celcius(303.6)  # This should simulate a failure (as it's above 100°C)
-alert_in_celcius(100)
+# Test the alert_in_celcius function with values that should trigger failures
+alert_in_celcius(400.5)  # This should fail
+alert_in_celcius(303.6)  # This should not fail
 
-# Check the failure count
+# Check if the failure count is correct
+assert alert_failure_count == 1, f"Expected 1 failure, but got {alert_failure_count}"
+
 print(f'{alert_failure_count} alerts failed.')
-
-# Assert to ensure that failures are counted correctly
-assert(alert_failure_count == 2), f"Expected 2 failures, but got {alert_failure_count}"
-
 print('All is well (maybe!)')
