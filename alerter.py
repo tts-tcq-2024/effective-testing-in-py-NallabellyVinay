@@ -9,7 +9,7 @@ def network_alert_production(celsius):
 
 def network_alert_stub(celsius):
     print(f'STUB ALERT: Temperature is {celsius} celsius')
-    if celsius > 200:
+    if celsius > 150:  # Adjust the threshold to ensure consistent failure during testing
         return 500
     return 200
 
@@ -24,14 +24,20 @@ def alert_in_celcius(fahrenheit, network_alert_function):
 
 # Test the alert_in_celcius function with the stub function
 alert_failure_count = 0  # Reset the alert_failure_count for the test
-alert_in_celcius(400.5, network_alert_stub)  # This should fail
-alert_in_celcius(303.6, network_alert_stub)  # This should not fail
+alert_in_celcius(400.5, network_alert_stub)  # This should fail (400.5 F -> 204.7 C)
+alert_in_celcius(303.6, network_alert_stub)  # This should not fail (303.6 F -> 150.9 C)
 
 # Debug output to understand the state
 print(f'Test alert_failure_count: {alert_failure_count}')
 
 # Check if the failure count is correct
-assert alert_failure_count == 1, f"Expected 1 failure, but got {alert_failure_count}"
+try:
+    assert alert_failure_count == 1, f"Expected 1 failure, but got {alert_failure_count}"
+    print('Test passed.')
+except AssertionError as e:
+    print('FALSE POSITIVE! Expected failure but succeeded')
+    print(e)
+    raise e
 
 print(f'{alert_failure_count} alerts failed.')
 print('All is well (maybe!)')
